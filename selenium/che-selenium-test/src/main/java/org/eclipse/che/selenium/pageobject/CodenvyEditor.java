@@ -1776,45 +1776,41 @@ public class CodenvyEditor {
               String javaDocPopupHtmlText = "";
               try {
                 javaDocPopupHtmlText = getJavaDocPopupText();
-                LOG.debug("===============>>>>>> " + javaDocPopupHtmlText);
               } catch (Exception e) {
                 LOG.error(
                     "Can not get java doc HTML text from autocomplete context menu in editor");
               }
-              return verifyJavaDoc(javaDocPopupHtmlText, expectedText);
+              return javaDocPopupHtmlText.length() > 0
+                  && verifyJavaDoc(javaDocPopupHtmlText, expectedText);
             });
   }
 
   private void waitJavaDocPopupSrcAttributeIsNotEmpty() {
-    LOG.debug("===============>>>>>> src not empty start");
     new FluentWait<>(seleniumWebDriver)
         .withTimeout(LOAD_PAGE_TIMEOUT_SEC * 2, SECONDS)
         .pollingEvery(LOAD_PAGE_TIMEOUT_SEC / 2, SECONDS)
         .ignoring(StaleElementReferenceException.class, NoSuchElementException.class)
         .until(ExpectedConditions.attributeToBeNotEmpty(autocompleteProposalJavaDocPopup, "src"));
-    LOG.debug("===============>>>>>> src not empty sucesful");
   }
 
   private String getJavaDocPopupText() {
+    HttpURLConnection connection;
     try {
-      LOG.debug("===============>>>>>> getJavaDocPopuptext start");
       URL connectionUrl = new URL(autocompleteProposalJavaDocPopup.getAttribute("src"));
-      LOG.debug("===============>>>>>> getJavaDocPopuptext 1");
-      HttpURLConnection connection = (HttpURLConnection) connectionUrl.openConnection();
-      LOG.debug("===============>>>>>> getJavaDocPopuptext 2");
+      connection = (HttpURLConnection) connectionUrl.openConnection();
       connection.setRequestMethod("GET");
-      LOG.debug("===============>>>>>> getJavaDocPopuptext 3");
       try (BufferedReader br =
           new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"))) {
-        LOG.debug("===============>>>>>> getJavaDocPopuptext 4");
         return br.lines().collect(Collectors.joining());
 
       } catch (Exception ex) {
-        LOG.error("%%%%%%%%%%%%%%%%%%%%%%%%%%>>>>>>>>>   Something went wrong in BufferReader");
+        LOG.error("Something went wrong in BufferReader");
       }
 
     } catch (Exception ex) {
-      LOG.error("%%%%%%%%%%%%%%%%%%%%%%%%%%>>>>>>>>>   Something went wrong in method body");
+      LOG.error("Something went wrong in method body");
+    } finally {
+      if (connection != null) connection.disconnect();
     }
 
     return "";
