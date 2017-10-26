@@ -187,11 +187,11 @@ public class CommandsExplorer {
     loader.waitOnClosed();
     new WebDriverWait(seleniumWebDriver, LOAD_PAGE_TIMEOUT_SEC)
         .until(
-            ExpectedConditions.elementToBeClickable(
+            ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(
                     "//div[@id='command_"
                         + commandName
-                        + "']//span[@id='commands_tree-button-duplicate']")))
+                        + "']//span[@id='commands_tree-button-duplicate']/*")))
         .click();
   }
 

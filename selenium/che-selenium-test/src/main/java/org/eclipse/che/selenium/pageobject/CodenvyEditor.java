@@ -1777,7 +1777,7 @@ public class CodenvyEditor {
               try {
                 javaDocPopupHtmlText = getJavaDocPopupText();
                 LOG.debug("===============>>>>>> " + javaDocPopupHtmlText);
-              } catch (IOException e) {
+              } catch (Exception e) {
                 LOG.error(
                     "Can not get java doc HTML text from autocomplete context menu in editor");
               }
@@ -1795,22 +1795,29 @@ public class CodenvyEditor {
     LOG.debug("===============>>>>>> src not empty sucesful");
   }
 
-  private String getJavaDocPopupText() throws IOException {
-    LOG.debug("===============>>>>>> getJavaDocPopuptext start");
-    URL connectionUrl = new URL(autocompleteProposalJavaDocPopup.getAttribute("src"));
-    LOG.debug("===============>>>>>> getJavaDocPopuptext 1");
-    HttpURLConnection connection = (HttpURLConnection) connectionUrl.openConnection();
-    LOG.debug("===============>>>>>> getJavaDocPopuptext 2");
-    connection.setRequestMethod("GET");
-    LOG.debug("===============>>>>>> getJavaDocPopuptext 3");
-    try (BufferedReader br =
-        new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"))) {
-      LOG.debug("===============>>>>>> getJavaDocPopuptext 4");
-      return br.lines().collect(Collectors.joining());
+  private String getJavaDocPopupText() {
+    try {
+      LOG.debug("===============>>>>>> getJavaDocPopuptext start");
+      URL connectionUrl = new URL(autocompleteProposalJavaDocPopup.getAttribute("src"));
+      LOG.debug("===============>>>>>> getJavaDocPopuptext 1");
+      HttpURLConnection connection = (HttpURLConnection) connectionUrl.openConnection();
+      LOG.debug("===============>>>>>> getJavaDocPopuptext 2");
+      connection.setRequestMethod("GET");
+      LOG.debug("===============>>>>>> getJavaDocPopuptext 3");
+      try (BufferedReader br =
+          new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"))) {
+        LOG.debug("===============>>>>>> getJavaDocPopuptext 4");
+        return br.lines().collect(Collectors.joining());
 
-    } finally {
-      connection.disconnect();
+      } catch (Exception ex) {
+        LOG.error("%%%%%%%%%%%%%%%%%%%%%%%%%%>>>>>>>>>   Something went wrong in BufferReader");
+      }
+
+    } catch (Exception ex) {
+      LOG.error("%%%%%%%%%%%%%%%%%%%%%%%%%%>>>>>>>>>   Something went wrong in method body");
     }
+
+    return "";
   }
 
   private boolean verifyJavaDoc(String javaDocHtml, String regex) {
