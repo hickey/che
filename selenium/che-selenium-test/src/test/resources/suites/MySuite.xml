@@ -18,6 +18,16 @@
 
     <test name="all">
         <classes>
+        <class name="org.eclipse.che.selenium.projectexplorer.CreateNewPackagesWithHelpCreationJavaClassTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.CreateProjectInSelectedFolderTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.CreateProjectsForArtikPluginTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.CreateProjectTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.DeleteFilesFromContextMenuTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.DeleteFilesTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.DeletePackageFromContextMenuTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.DeletePackageTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.DeletePackageWithOpenedFilesTabTest"/>
+            
             <class name="org.eclipse.che.selenium.dashboard.WorkspaceDetailsTest"/>
             <class name="org.eclipse.che.selenium.debugger.ChangeVariableWithEvaluatingTest"/>
             <class name="org.eclipse.che.selenium.debugger.CheckBreakPointStateTest"/>
@@ -90,6 +100,23 @@
                 </methods>
             </class>
             <class name="org.eclipse.che.selenium.editor.CheckSearchFeatureInEditorTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.ClosingSeveralOpenFilesTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.CreateNewFoldersTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.CreateNewJavaFilesFromContextMenuTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.CreateNewJavaFilesTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.CreateNewNotJavaFilesFromContextMenuTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.CreateNewNotJavaFilesTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.CreateNewPackageFromContextMenuTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.CreateNewPackagesWithHelpCreationJavaClassTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.CreateProjectInSelectedFolderTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.CreateProjectsForArtikPluginTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.CreateProjectTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.DeleteFilesFromContextMenuTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.DeleteFilesTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.DeletePackageFromContextMenuTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.DeletePackageTest"/>
+            <class name="org.eclipse.che.selenium.projectexplorer.DeletePackageWithOpenedFilesTabTest"/>
+            
               </classes>
     </test>
 </suite>
