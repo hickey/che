@@ -1776,6 +1776,7 @@ public class CodenvyEditor {
               String javaDocPopupHtmlText = "";
               try {
                 javaDocPopupHtmlText = getJavaDocPopupText();
+                LOG.debug("===============>>>>>> " + javaDocPopupHtmlText);
               } catch (IOException e) {
                 LOG.error(
                     "Can not get java doc HTML text from autocomplete context menu in editor");
@@ -1785,21 +1786,28 @@ public class CodenvyEditor {
   }
 
   private void waitJavaDocPopupSrcAttributeIsNotEmpty() {
+    LOG.debug("===============>>>>>> src not empty start");
     new FluentWait<>(seleniumWebDriver)
         .withTimeout(LOAD_PAGE_TIMEOUT_SEC * 2, SECONDS)
         .pollingEvery(LOAD_PAGE_TIMEOUT_SEC / 2, SECONDS)
         .ignoring(StaleElementReferenceException.class, NoSuchElementException.class)
         .until(ExpectedConditions.attributeToBeNotEmpty(autocompleteProposalJavaDocPopup, "src"));
+    LOG.debug("===============>>>>>> src not empty sucesful");
   }
 
   private String getJavaDocPopupText() throws IOException {
+    LOG.debug("===============>>>>>> getJavaDocPopuptext start");
     URL connectionUrl = new URL(autocompleteProposalJavaDocPopup.getAttribute("src"));
+    LOG.debug("===============>>>>>> getJavaDocPopuptext 1");
     HttpURLConnection connection = (HttpURLConnection) connectionUrl.openConnection();
+    LOG.debug("===============>>>>>> getJavaDocPopuptext 2");
     connection.setRequestMethod("GET");
-
+    LOG.debug("===============>>>>>> getJavaDocPopuptext 3");
     try (BufferedReader br =
         new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"))) {
+      LOG.debug("===============>>>>>> getJavaDocPopuptext 4");
       return br.lines().collect(Collectors.joining());
+
     } finally {
       connection.disconnect();
     }
