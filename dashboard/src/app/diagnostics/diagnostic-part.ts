@@ -51,7 +51,7 @@ export class DiagnosticPart {
   /**
    * Current promises of all callbacks
    */
-  private callbackPromises : Array<ng.IPromise>;
+  private callbackPromises : Array<ng.IPromise<any>>;
 
   /**
    * Number of callbacks (tests) that have finished.
@@ -80,7 +80,7 @@ export class DiagnosticPart {
     this.items = new Array<DiagnosticItem>();
     this.callbacks = new Array<DiagnosticCallback>();
     this.callbacksEnded = new Array<DiagnosticCallback>();
-    this.callbackPromises = new Array<ng.IPromise>();
+    this.callbackPromises = new Array<ng.IPromise<any>>();
     this.nbEndedCallbacks = 0;
     this.nbSuccessCallbacks = 0;
     this.nbErrorCallbacks = 0;
@@ -88,7 +88,7 @@ export class DiagnosticPart {
 
   /**
    * Add an item to this part.
-   * @param item the item to add
+   * @param {DiagnosticItem} item the item to add
    */
   addItem(item : DiagnosticItem) : void {
     this.items.push(item);
@@ -96,7 +96,7 @@ export class DiagnosticPart {
 
   /**
    * Test callback to add to this part
-   * @param callback the test callback to add.
+   * @param {DiagnosticCallback} callback the test callback to add.
    */
   addCallback(callback: DiagnosticCallback) : void {
 
@@ -159,20 +159,20 @@ export class DiagnosticPart {
 
   /**
    * Convert state to friendly text.
-   * @returns {any}
+   * @returns {string}
    */
   public stateToText() : string {
     switch (this.state) {
       case DiagnosticPartState.READY :
-        return "READY (planned)";
+        return 'READY (planned)';
       case DiagnosticPartState.IN_PROGRESS :
-        return "IN PROGRESS";
+        return 'IN PROGRESS';
       case DiagnosticPartState.SUCCESS :
-        return "SUCCESS";
+        return 'SUCCESS';
       case DiagnosticPartState.FAILURE :
-        return "FAILURE";
+        return 'FAILURE';
       case DiagnosticPartState.ERROR :
-        return "ERROR"
+        return 'ERROR';
     }
   }
 

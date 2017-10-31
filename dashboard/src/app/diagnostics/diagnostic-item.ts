@@ -77,7 +77,7 @@ export class DiagnosticItem {
    * Checks the state of the item
    * @returns {boolean} true if state is RUNNING
    */
-  public isRunning() : boolean{
+  public isRunning() : boolean {
     return DiagnosticCallbackState.RUNNING === this.state;
   }
 
@@ -96,15 +96,15 @@ export class DiagnosticItem {
   public stateToText() : string {
     switch (this.state) {
       case DiagnosticCallbackState.RUNNING :
-        return "STATE_RUNNING";
+        return 'STATE_RUNNING';
       case DiagnosticCallbackState.HINT :
-        return "HINT";
+        return 'HINT';
       case DiagnosticCallbackState.OK :
-        return "SUCCESS";
+        return 'SUCCESS';
       case DiagnosticCallbackState.FAILURE :
-        return "FAILURE";
+        return 'FAILURE';
       case DiagnosticCallbackState.ERROR :
-        return "ERROR"
+        return 'ERROR';
     }
   }
 

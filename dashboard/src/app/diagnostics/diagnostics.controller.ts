@@ -166,39 +166,38 @@ export class DiagnosticsController {
     this.parts.length = 0;
     this.parts.push(this.wsMasterPart);
     this.parts.push(this.wsAgentPart);
-    this.parts.forEach((part) => {
+    this.parts.forEach((part: DiagnosticPart) => {
       part.clear();
     });
 
     this.currentPart = this.wsMasterPart;
 
-
-    // First check websocket on workspace master
+    // first check websocket on workspace master
     this.checkWorkspaceMaster().then(() => {
       return this.checkWorkspaceAgent();
     }).then(() => {
       return this.waitAllCompleted([this.checkWorkspaceCheck(), this.checkWebSocketWsAgent()]);
-    }).then(()=> {
+    }).then(() => {
       this.globalStatusText = 'Completed Diagnostics';
       this.state = DiagnosticPartState.SUCCESS;
-    }).catch(error => {
+    }).catch((error: any) => {
       this.globalStatusText = 'Diagnostics Finished With Error';
       this.state = DiagnosticPartState.ERROR;
       }
-    )
+    );
   }
 
   /**
    * Wait for all promises to be terminate and not stop at the first error
    * @param promises an array of promises
-   * @returns {IPromise<T[]>}
+   * @returns {ng.IPromise<any>}
    */
-  waitAllCompleted(promises : Array<ng.IPromise>) : ng.IPromise {
-    var allCompletedDefered = this.$q.defer();
+  waitAllCompleted(promises : Array<ng.IPromise<any>>) : ng.IPromise<any> {
+    const allCompletedDefered = this.$q.defer();
     let finished : number = 0;
     let toFinish : number = promises.length;
     let error : boolean = false;
-    promises.forEach((promise) => {
+    promises.forEach((promise: ng.IPromise<any>) => {
       promise.catch(() => {
         error = true;
       }).finally(() => {
@@ -211,11 +210,10 @@ export class DiagnosticsController {
             allCompletedDefered.resolve('success');
           }
         }
-      })
+      });
     });
     return allCompletedDefered.promise;
   }
-
 
   /**
    * Build a new callback item
@@ -239,16 +237,16 @@ export class DiagnosticsController {
 
   /**
    * Checks the workspace master.
-   * @returns {ng.IPromise}
+   * @returns {ng.IPromise<any>}
    */
-  public checkWorkspaceMaster() : ng.IPromise {
+  public checkWorkspaceMaster() : ng.IPromise<any> {
     this.currentPart = this.wsMasterPart;
 
     this.wsMasterPart.state = DiagnosticPartState.IN_PROGRESS;
-    let promiseWorkspaceMaster : ng.IPromise = this.diagnosticsWebsocketWsMaster.start(this.newItem('Websockets', this.wsMasterPart));
+    let promiseWorkspaceMaster : ng.IPromise<any> = this.diagnosticsWebsocketWsMaster.start(this.newItem('Websockets', this.wsMasterPart));
     promiseWorkspaceMaster.then(() => {
       this.wsMasterPart.state = DiagnosticPartState.SUCCESS;
-    }).catch(error => {
+    }).catch((error: any) => {
       this.wsMasterPart.state = DiagnosticPartState.ERROR;
     });
 
@@ -257,16 +255,16 @@ export class DiagnosticsController {
 
   /**
    * Checks the workspace agent.
-   * @returns {ng.IPromise}
+   * @returns {ng.IPromise<any>}
    */
-  public checkWorkspaceAgent() : ng.IPromise {
+  public checkWorkspaceAgent() : ng.IPromise<any> {
     this.currentPart = this.wsAgentPart;
 
     this.wsAgentPart.state = DiagnosticPartState.IN_PROGRESS;
-    let promiseWorkspaceAgent : ng.IPromise = this.diagnosticsWorkspaceStartCheck.start(this.newItem('Create Workspace', this.wsAgentPart));
+    let promiseWorkspaceAgent : ng.IPromise<any> = this.diagnosticsWorkspaceStartCheck.start(this.newItem('Create Workspace', this.wsAgentPart));
     promiseWorkspaceAgent.then(() => {
       this.wsAgentPart.state = DiagnosticPartState.SUCCESS;
-    }).catch(error => {
+    }).catch((error: any) => {
       this.wsAgentPart.state = DiagnosticPartState.ERROR;
     });
 
@@ -275,23 +273,22 @@ export class DiagnosticsController {
 
   /**
    * Check the REST API on ws agent
-   * @returns {ng.IPromise}
+   * @returns {ng.IPromise<any>}
    */
-  public checkWorkspaceCheck() : ng.IPromise {
+  public checkWorkspaceCheck() : ng.IPromise<any> {
     return this.diagnosticsRunningWorkspaceCheck.checkWsAgent(this.newItem('REST Call on Workspace Agent', this.wsAgentPart), true);
   }
 
   /**
    * Check the websockets on ws agent
-   * @returns {ng.IPromise}
+   * @returns {ng.IPromise<any>}
    */
-  public checkWebSocketWsAgent() : ng.IPromise {
+  public checkWebSocketWsAgent() : ng.IPromise<any> {
     return this.diagnosticsRunningWorkspaceCheck.checkWebSocketWsAgent(this.newItem('Websocket on Workspace Agent', this.wsAgentPart));
   }
 
   /**
    * Allow to toggle details
-   * @returns {ng.IPromise}
    */
   public toggleDetails() : void {
     this.showDetails = !this.showDetails;
