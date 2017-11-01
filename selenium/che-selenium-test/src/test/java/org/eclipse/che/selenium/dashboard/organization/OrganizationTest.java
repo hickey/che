@@ -124,34 +124,37 @@ public class OrganizationTest {
   }
 
   private void changeMembersRoleFromAdminToMember(List<String> emails) {
-    emails.forEach(email -> {
-      loader.waitOnClosed();
-      addMember.clickEditPermissionsButton(email);
-      addMember.clickMemberButton();
-      addMember.clickSaveButton();
-    });
+    emails.forEach(
+        email -> {
+          loader.waitOnClosed();
+          addMember.clickEditPermissionsButton(email);
+          addMember.clickMemberButton();
+          addMember.clickSaveButton();
+        });
   }
 
   private void searchMembersInOrganization(List<String> emails) {
-    emails.forEach(email -> {
-      organizationPage.clearSearchField();
-      String memberName = organizationPage.getMembersNameByEmail(email);
-      organizationPage.searchMembers(memberName.substring(0, (memberName.length() / 2)));
-      organizationPage.checkMemberExistsInMembersList(email);
-    });
+    emails.forEach(
+        email -> {
+          organizationPage.clearSearchField();
+          String memberName = organizationPage.getMembersNameByEmail(email);
+          organizationPage.searchMembers(memberName.substring(0, (memberName.length() / 2)));
+          organizationPage.checkMemberExistsInMembersList(email);
+        });
     organizationPage.clearSearchField();
   }
 
   private void addMembersToOrganizationWithAdminRole(List<String> emails) {
     loader.waitOnClosed();
     organizationPage.clickMembersTab();
-    emails.forEach(email -> {
-      organizationPage.clickAddMemberButton();
-      addMember.waitAddMemberWidget();
-      addMember.setMembersEmail(email);
-      addMember.clickAdminButton();
-      addMember.clickAddButton();
-      organizationPage.checkMemberExistsInMembersList(email);
-    });
+    emails.forEach(
+        email -> {
+          organizationPage.clickAddMemberButton();
+          addMember.waitAddMemberWidget();
+          addMember.setMembersEmail(email);
+          addMember.clickAdminButton();
+          addMember.clickAddButton();
+          organizationPage.checkMemberExistsInMembersList(email);
+        });
   }
 }
