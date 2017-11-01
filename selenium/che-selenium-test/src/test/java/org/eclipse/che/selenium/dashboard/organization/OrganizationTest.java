@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
 public class OrganizationTest {
 
   private String orgName;
-  private List<String> emailsList;
+  private List<String> emails;
   private OrganizationDto organization;
 
   @Inject private OrganizationListPage organizationListPage;
@@ -56,7 +56,7 @@ public class OrganizationTest {
 
   @BeforeClass
   public void setUp() throws Exception {
-    emailsList = Arrays.asList(testUser1.getEmail());
+    emails = Arrays.asList(testUser1.getEmail());
     String firstName = generate("F", 7);
     String lastName = generate("L", 7);
 
@@ -64,6 +64,13 @@ public class OrganizationTest {
     orgName = generate("orgX", 6);
 
     organization = testOrganizationServiceClient.create(orgName);
+
+    navigationBar.waitNavigationBar();
+    navigationBar.clickOnMenu(NavigationBar.MenuItem.ORGANIZATIONS);
+    organizationListPage.waitForOrganizationsToolbar();
+    organizationListPage.waitForOrganizationsList();
+    organizationListPage.clickOnOrganization(organization.getQualifiedName());
+    organizationPage.waitOrganizationName(orgName);
   }
 
   @AfterClass
@@ -73,46 +80,14 @@ public class OrganizationTest {
 
   @Test
   public void operationsWithMembers() {
-    navigationBar.waitNavigationBar();
-    navigationBar.clickOnMenu(NavigationBar.MenuItem.ORGANIZATIONS);
-    organizationListPage.waitForOrganizationsToolbar();
-    organizationListPage.waitForOrganizationsList();
-    organizationListPage.clickOnOrganization(organization.getQualifiedName());
-    organizationPage.waitOrganizationName(orgName);
 
-    // Add members to a members list ad 'Admin'
-    loader.waitOnClosed();
-    organizationPage.clickMembersTab();
-    for (String email : emailsList) {
-      organizationPage.clickAddMemberButton();
-      addMember.waitAddMemberWidget();
-      addMember.setMembersEmail(email);
-      addMember.clickAdminButton();
-      addMember.clickAddButton();
-      organizationPage.checkMemberExistsInMembersList(email);
-    }
+    addMembersToOrganizationWithAdminRole(emails);
 
-    // Search members from the members list
-    for (String email : emailsList) {
-      organizationPage.clearSearchField();
-      String memberName = organizationPage.getMembersNameByEmail(email);
-      organizationPage.searchMembers(memberName.substring(0, (memberName.length() / 2)));
-      organizationPage.checkMemberExistsInMembersList(email);
-    }
-    organizationPage.clearSearchField();
+    searchMembersInOrganization(emails);
 
-    // Change the members role to 'Members'
-    for (String email : emailsList) {
-      loader.waitOnClosed();
-      addMember.clickEditPermissionsButton(email);
-      addMember.clickMemberButton();
-      addMember.clickSaveButton();
-    }
+    changeMembersRoleFromAdminToMember(emails);
 
-    // Delete the members from the members list
-    for (String email : emailsList) {
-      organizationPage.deleteMember(email);
-    }
+    deleteOrganizationMembers(emails);
   }
 
   // @Test(priority = 1)
@@ -142,5 +117,41 @@ public class OrganizationTest {
     organizationPage.clickMembersTab();
 
     organizationPage.clickSettingsTab();
+  }
+
+  private void deleteOrganizationMembers(List<String> emails) {
+    emails.forEach(email -> organizationPage.deleteMember(email));
+  }
+
+  private void changeMembersRoleFromAdminToMember(List<String> emails) {
+    emails.forEach(email -> {
+      loader.waitOnClosed();
+      addMember.clickEditPermissionsButton(email);
+      addMember.clickMemberButton();
+      addMember.clickSaveButton();
+    });
+  }
+
+  private void searchMembersInOrganization(List<String> emails) {
+    emails.forEach(email -> {
+      organizationPage.clearSearchField();
+      String memberName = organizationPage.getMembersNameByEmail(email);
+      organizationPage.searchMembers(memberName.substring(0, (memberName.length() / 2)));
+      organizationPage.checkMemberExistsInMembersList(email);
+    });
+    organizationPage.clearSearchField();
+  }
+
+  private void addMembersToOrganizationWithAdminRole(List<String> emails) {
+    loader.waitOnClosed();
+    organizationPage.clickMembersTab();
+    emails.forEach(email -> {
+      organizationPage.clickAddMemberButton();
+      addMember.waitAddMemberWidget();
+      addMember.setMembersEmail(email);
+      addMember.clickAdminButton();
+      addMember.clickAddButton();
+      organizationPage.checkMemberExistsInMembersList(email);
+    });
   }
 }
