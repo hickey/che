@@ -1,0 +1,99 @@
+<!--
+
+    Copyright (c) 2012-2017 Red Hat, Inc.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+    Contributors:
+      Red Hat, Inc. - initial API and implementation
+
+-->
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Eclipse Che selenium tests"
+       verbose="10"
+       parallel="classes"
+       thread-count="4">
+
+    <test name="all">
+        <classes>
+            <class name="org.eclipse.che.selenium.refactor.move.CodeAssistAfterMoveItemTest"/>
+            <class name="org.eclipse.che.selenium.refactor.move.FailMoveItemTest"/>
+            <class name="org.eclipse.che.selenium.refactor.move.MoveItemsTest">
+                <methods>
+                    <exclude name="checkMoveItem5"/>
+                </methods>
+            </class>
+            <class name="org.eclipse.che.selenium.refactor.move.MoveJavaClassToSubpackageTest">
+                <methods>
+                    <exclude name="checkProjectTreeAfterMoveJavaFile"/>
+                </methods>
+            </class>
+            <class name="org.eclipse.che.selenium.refactor.move.MoveJavaFileInNewSourceFolderTest">
+                <methods>
+                    <exclude name="checkMoveJavaClassInNewSourceFolder"/>
+                </methods>
+            </class>
+            <class name="org.eclipse.che.selenium.refactor.packages.RenamePackageSpringTest">
+                <methods>
+                    <exclude name="checkRenamePackageSpringApp"/>
+                    <exclude name="checkRenamePackageWithMainMethod"/>
+                    <exclude name="checkTest3"/>
+                    <exclude name="checkTest4"/>
+                    <exclude name="checkTestDisableImport11"/>
+                    <exclude name="checkTestHierarchical9_1"/>
+                </methods>
+            </class>
+            <class name="org.eclipse.che.selenium.refactor.packages.RenamePackageTest">
+                <methods>
+                    <exclude name="checkTest3"/>
+                    <exclude name="checkTest4"/>
+                    <exclude name="checkTestDisableImport11"/>
+                    <exclude name="checkTestHierarchical9_1"/>
+                    <exclude name="checkTestPackageRenameWithResource12"/>
+                </methods>
+            </class>
+            <class name="org.eclipse.che.selenium.refactor.parameters.FailParametersTest"/>
+            <class name="org.eclipse.che.selenium.refactor.parameters.RenameParametersTest"/>
+            <class name="org.eclipse.che.selenium.refactor.preview.CheckTreeInRefactorPanelTest"/>
+            <class name="org.eclipse.che.selenium.refactor.preview.PreviewRefactoringTest"/>
+            <class name="org.eclipse.che.selenium.refactor.types.GenericsTest">
+                <methods>
+                    <exclude name="testGenerics2"/>
+                </methods>
+            </class>
+            <class name="org.eclipse.che.selenium.refactor.types.IllegalTypeNameTest"/>
+            <class name="org.eclipse.che.selenium.refactor.types.RenameTypeTest"/>
+            <class name="org.eclipse.che.selenium.refactor.types.TestAnnotationsTest"/>
+            <class name="org.eclipse.che.selenium.refactor.types.TestEnumerationsTest">
+                <methods>
+                    <exclude name="testEnum1"/>
+                </methods>
+            </class>
+            <class name="org.eclipse.che.selenium.refactor.types.TestFailTest"/>
+            <class name="org.eclipse.che.selenium.swagger.SwaggerTest">
+                <methods>
+                    <exclude name="checkNameProjectTest"/>
+                </methods>
+            </class>
+            <class name="org.eclipse.che.selenium.workspaces.CheckStopStartWsTest"/>
+            <class name="org.eclipse.che.selenium.workspaces.CreateWorkspaceOnDashboardTest"/>
+            <class name="org.eclipse.che.selenium.workspaces.ProjectStateAfterRefreshTest"/>
+            <class name="org.eclipse.che.selenium.workspaces.ProjectStateAfterRenameWorkspaceTest">
+                <methods>
+                    <exclude name="checkProjectAfterRenameWs"/>
+                </methods>
+            </class>
+            <class name="org.eclipse.che.selenium.workspaces.ProjectStateAfterWorkspaceRestartTest"/>
+            <class name="org.eclipse.che.selenium.workspaces.WorkingWithJavaMySqlStackTest"/>
+            <class name="org.eclipse.che.selenium.workspaces.WorkingWithNodeWsTest">
+                <methods>
+                    <exclude name="checkNodeJsWsAndRunApp"/>
+                </methods>
+            </class>
+            <class name="org.eclipse.che.selenium.workspaces.WorkspaceFromOfficialUbuntuImageStartTest"/>
+
+        </classes>
+    </test>
+</suite>
